@@ -1,6 +1,10 @@
+แน่นอนครับ นี่คือไฟล์ `Readme.md` ฉบับเต็มที่ได้รับการอัปเดตส่วน Tasks ของ Workshop 3 และ 4 ให้ตรงตามเนื้อหาในสไลด์เรียบร้อยแล้วครับ
+
+---
+
 # Programming Workshop Assignments
 
-This document outlines a series of programming workshops designed to build a complete frontend application, from initial design to final refactoring.
+This document outlines a series of programming workshops designed to build a complete application, from initial design and prototyping to backend development, testing, and advanced AI integration.
 
 ## Workshop Overview
 
@@ -8,9 +12,10 @@ This document outlines a series of programming workshops designed to build a com
 |----------|-------|-------------|
 | Workshop 1 | CSS & JavaScript Animation | Create custom CSS and JavaScript animations for a given HTML file. |
 | Workshop 2 | AI-Powered Prototyping | Build and deploy a UI prototype from a Product Requirements Document (PRD) using an AI tool. |
-| Workshop 3 | Frontend Development | -- need text -- |
+| Workshop 3 | Frontend Development | Build a React frontend application using AI-assisted setup, component conversion, and a design token system for consistency. |
 | Workshop 4 | Backend Development & Testing | Design and implement backend services with proper database integration, containerization, and automated testing workflows. |
-| Workshop 5 | AI Instruction Development | Create comprehensive AI instructions including system prompts, documentation, chat mode references, and essential scripts for project development. |
+| Workshop 5 | AI-Assisted Tooling & Testing with MCP | Integrate the Model Context Protocol (MCP) with development tools to automate coding and E2E testing tasks. |
+| Workshop 6 | AI Instruction Development | Create a comprehensive AI instruction system including system prompts, documentation, and chat mode references to guide project development. |
 
 ## Workshop 1: CSS & JavaScript Animation
 
@@ -33,9 +38,10 @@ This document outlines a series of programming workshops designed to build a com
 **Objective**: Build a complete frontend application using React and modern frontend tooling. Emphasize the use of design tokens to ensure visual consistency across pages and prepare the project for scalability.
 
 **Tasks**:
-- Setup a React project with TailwindCSS and React Router through AI-assisted scaffolding.  
-- Define design tokens through a UI design system.  
-- Create new pages using the design tokens to maintain a unified style.  
+- Setup a React project with TailwindCSS using AI-assisted scaffolding.
+- Convert an existing Vue component into a React component.
+- Create a new page using predefined design tokens to maintain a unified style.
+- (Optional) Add Storybook to document and specify frontend components.
 
 ### Setup Guide
 
@@ -47,32 +53,41 @@ This document outlines a series of programming workshops designed to build a com
 
 ## Workshop 4: Backend Development & Testing
 
-**Objective**: Build and test a backend system that supports the frontend application. Focus on API design, database integration, containerization, and ensuring code quality through unit, integration, and end-to-end testing.
+**Objective**: Build and test a backend system that supports the frontend application. Focus on API design, database integration, containerization, and ensuring code quality through unit testing.
 
 **Tasks**:
-- Initialize the backend project with the help of AI (Go + Fiber, Python + FastAPI, or any preferred stack).  
-- Convert the UI specification into Swagger documentation, database schema, and backend code (using docs to guide development).  
-- Create `Dockerfile` and `docker-compose` for configuration coverage.  
-- Implement unit tests with code coverage reports.  
-- Perform integration tests to validate database interactions.  
-- Conduct end-to-end testing using Playwright, leveraging MCP for analysis support.  
+- Initialize the backend project with the help of AI (Go + Fiber or any preferred stack).
+- Implement APIs according to the specifications in Git (for docs and images) using an SQLite database.
+- Design the database schema and output the result in Mermaid format.
+- Write additional code and unit tests based on the provided test cases.
 
 ### Setup Guide
 
 - **Go + Fiber** : https://docs.gofiber.io/
-- **Playwright**: https://playwright.dev/docs/intro#whats-installed
 
-## Workshop 5: AI Instruction Development
+## Workshop 5: AI-Assisted Tooling & Testing with MCP
+
+**Objective**: To integrate the Model Context Protocol (MCP) with development tools like Git and Playwright to automate and assist in coding and E2E testing tasks.
+
+**Tasks**:
+- Use `git-mcp` to connect to the provided GitHub repository and add new helper code based on a given specification.
+- Use `playwright-mcp` to create an end-to-end test that verifies the contact information on the KBTG homepage is located in Nonthaburi.
+
+### Setup Guide
+- **Install MCP in VS Code**: https://code.visualstudio.com/docs/copilot/customization/mcp-servers
+- **Git MCP**: https://gitmcp.io/
+- **Playwright MCP**: https://github.com/microsoft/playwright-mcp
+
+## Workshop 6: AI Instruction Development
 
 **Objective**: To create comprehensive AI instructions for a project by developing a complete instruction system that includes coding standards, documentation, and reference materials.
 
 **Tasks**:
-- Use an existing repository (or create your own) to build your own instruction system, which must include:
-  - **System Prompt** = `copilot-instruction.md` for defining coding standards, high-level ideas, and clear boundaries of what can and cannot be done
-  - **Documentation** = Store `docs` in a dedicated folder (a collection of markdown files that compile project specifications)
-  - **Chat Mode** = Specify reference data sources that can be used for citations
-  - **Scripts** = Essential scripts that work in conjunction with the system (such as database seeding with initial values)
+- Create a **System Prompt** file at `.github/copilot-instructions.md` to define coding standards, high-level project ideas, and clear boundaries for the AI.
+- Establish a `specs` folder to store all project **Documentation** as a collection of markdown files.
+- Configure a **Chat Mode** to act as a database assistant by referencing a `scripts` folder for context.
+- Develop essential **Scripts** for database tasks (e.g., seeding data from a CSV, counting records) and make them accessible to the Chat Mode prompt.
 
-**Repository**:
-- Repo for task: https://github.com/mikelopster/kbtg-be-go-lab
-- MCP install in vs code: https://code.visualstudio.com/docs/copilot/customization/mcp-servers
+### Guideline
+- **awesome-copilot**: https://github.com/github/awesome-copilot
+- **Spec kit**: https://github.com/github/spec-kit

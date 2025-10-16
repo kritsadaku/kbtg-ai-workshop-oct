@@ -1,6 +1,9 @@
 
 ## Step
 
+MCP installation
+https://code.visualstudio.com/docs/copilot/customization/mcp-servers
+
 ### 1. GitMCP
 1. เข้า https://gitmcp.io/ แล้วใส่ repo นี้เข้าไป > กด "To MCP"
 2. เลือก VS Code > สร้าง file `.vscode/mcp.json` แล้วเพิ่ม config ตามด้านล่างนี้เข้าไป พร้อมกด start mcp
