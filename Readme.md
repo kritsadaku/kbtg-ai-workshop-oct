@@ -1,7 +1,3 @@
-แน่นอนครับ นี่คือไฟล์ `Readme.md` ฉบับเต็มที่ได้รับการอัปเดตส่วน Tasks ของ Workshop 3 และ 4 ให้ตรงตามเนื้อหาในสไลด์เรียบร้อยแล้วครับ
-
----
-
 # Programming Workshop Assignments
 
 This document outlines a series of programming workshops designed to build a complete application, from initial design and prototyping to backend development, testing, and advanced AI integration.
