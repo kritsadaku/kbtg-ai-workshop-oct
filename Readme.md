@@ -85,5 +85,8 @@ This document outlines a series of programming workshops designed to build a com
 - Develop essential **Scripts** for database tasks (e.g., seeding data from a CSV, counting records) and make them accessible to the Chat Mode prompt.
 
 ### Guideline
+- **Copilot Instruction Prompt**: https://docs.github.com/en/copilot/how-tos/configure-custom-instructions/add-repository-instructions
+- **Copilot Chat Mode**: https://code.visualstudio.com/docs/copilot/customization/custom-chat-modes
+- **Copilot Prompt Template**: https://code.visualstudio.com/docs/copilot/customization/prompt-files
 - **awesome-copilot**: https://github.com/github/awesome-copilot
-- **Spec kit**: https://github.com/github/spec-kit
+- **Spec kit**: https://github.com/github/spec-kit (have video guideline in repo)
