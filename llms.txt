@@ -1,0 +1,2 @@
+# Style guideline
+- ทุก table ที่เกี่ยวข้องกับ "Users" เราจะไม่ใช้คำว่า "Users" แต่ใช้คำว่า "Member" แทน
