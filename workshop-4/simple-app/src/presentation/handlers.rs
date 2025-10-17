@@ -5,12 +5,13 @@ use axum::{
 };
 use serde::{Deserialize, Serialize};
 use utoipa::ToSchema;
-use crate::application::UserService;
+use crate::application::{UserService, TransferService};
 use crate::domain::{User, CreateUserRequest, UpdateUserRequest};
 
 #[derive(Clone)]
 pub struct AppState {
     pub user_service: UserService,
+    pub transfer_service: TransferService,
 }
 
 #[derive(Deserialize)]
@@ -22,6 +23,7 @@ pub struct ListUsersQuery {
 #[derive(Serialize, ToSchema)]
 pub struct ErrorResponse {
     pub error: String,
+    pub message: String,
 }
 
 #[derive(Serialize, ToSchema)]
@@ -63,12 +65,16 @@ pub async fn get_user(
         Ok(None) => Err((
             StatusCode::NOT_FOUND,
             Json(ErrorResponse {
-                error: "User not found".to_string(),
+                error: "USER_NOT_FOUND".to_string(),
+                message: "User not found".to_string(),
             }),
         )),
         Err(err) => Err((
             StatusCode::INTERNAL_SERVER_ERROR,
-            Json(ErrorResponse { error: err }),
+            Json(ErrorResponse { 
+                error: "INTERNAL_ERROR".to_string(),
+                message: err,
+            }),
         )),
     }
 }
@@ -96,7 +102,10 @@ pub async fn list_users(
         }
         Err(err) => Err((
             StatusCode::INTERNAL_SERVER_ERROR,
-            Json(ErrorResponse { error: err }),
+            Json(ErrorResponse { 
+                error: "INTERNAL_ERROR".to_string(),
+                message: err,
+            }),
         )),
     }
 }
@@ -119,7 +128,10 @@ pub async fn create_user(
         Ok(user) => Ok((StatusCode::CREATED, Json(user))),
         Err(err) => Err((
             StatusCode::BAD_REQUEST,
-            Json(ErrorResponse { error: err }),
+            Json(ErrorResponse { 
+                error: "VALIDATION_ERROR".to_string(),
+                message: err,
+            }),
         )),
     }
 }
@@ -151,7 +163,10 @@ pub async fn update_user(
             } else {
                 StatusCode::BAD_REQUEST
             };
-            Err((status, Json(ErrorResponse { error: err })))
+            Err((status, Json(ErrorResponse { 
+                error: if err.contains("not found") { "USER_NOT_FOUND" } else { "VALIDATION_ERROR" }.to_string(),
+                message: err,
+            })))
         }
     }
 }
@@ -177,12 +192,16 @@ pub async fn delete_user(
         Ok(false) => Err((
             StatusCode::NOT_FOUND,
             Json(ErrorResponse {
-                error: "User not found".to_string(),
+                error: "USER_NOT_FOUND".to_string(),
+                message: "User not found".to_string(),
             }),
         )),
         Err(err) => Err((
             StatusCode::INTERNAL_SERVER_ERROR,
-            Json(ErrorResponse { error: err }),
+            Json(ErrorResponse { 
+                error: "INTERNAL_ERROR".to_string(),
+                message: err,
+            }),
         )),
     }
 }

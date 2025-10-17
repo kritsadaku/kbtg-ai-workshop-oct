@@ -8,9 +8,9 @@ use utoipa::OpenApi;
 use utoipa_swagger_ui::SwaggerUi;
 use sqlx::SqlitePool;
 
-use domain::{User, CreateUserRequest, UpdateUserRequest};
-use infrastructure::SqliteUserRepository;
-use application::UserService;
+use domain::{User, CreateUserRequest, UpdateUserRequest, Transfer, CreateTransferRequest, TransferCreateResponse, TransferGetResponse, TransferListResponse};
+use infrastructure::{SqliteUserRepository, SqliteTransferRepository, SqlitePointLedgerRepository};
+use application::{UserService, TransferService};
 use presentation::{create_routes, AppState, ErrorResponse, ListUsersResponse};
 
 #[derive(OpenApi)]
@@ -22,9 +22,12 @@ use presentation::{create_routes, AppState, ErrorResponse, ListUsersResponse};
         presentation::handlers::create_user,
         presentation::handlers::update_user,
         presentation::handlers::delete_user,
+        presentation::transfer_handlers::create_transfer,
+        presentation::transfer_handlers::get_transfer,
+        presentation::transfer_handlers::list_transfers,
     ),
     components(
-        schemas(User, CreateUserRequest, UpdateUserRequest, ErrorResponse, ListUsersResponse)
+        schemas(User, CreateUserRequest, UpdateUserRequest, Transfer, CreateTransferRequest, TransferCreateResponse, TransferGetResponse, TransferListResponse, ErrorResponse, ListUsersResponse)
     ),
     tags(
         (name = "simple-app", description = "Clean Architecture API with User Management and SQLite")
@@ -45,17 +48,29 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     
     let pool = SqlitePool::connect(database_url).await?;
     
-    // Infrastructure layer - Repository
-    let user_repository = Arc::new(SqliteUserRepository::new(pool));
+    // Infrastructure layer - Repositories
+    let user_repository = Arc::new(SqliteUserRepository::new(pool.clone()));
+    let transfer_repository = Arc::new(SqliteTransferRepository::new(pool.clone()));
+    let point_ledger_repository = Arc::new(SqlitePointLedgerRepository::new(pool.clone()));
     
     // Initialize database tables
     user_repository.init_database().await?;
+    transfer_repository.init_database().await?;
+    point_ledger_repository.init_database().await?;
     
-    // Application layer - Service
-    let user_service = UserService::new(user_repository);
+    // Application layer - Services
+    let user_service = UserService::new(user_repository.clone());
+    let transfer_service = TransferService::new(
+        transfer_repository,
+        point_ledger_repository,
+        user_repository,
+    );
     
     // Application state
-    let app_state = AppState { user_service };
+    let app_state = AppState { 
+        user_service,
+        transfer_service,
+    };
     
     // Presentation layer - Routes
     let app = create_routes()
@@ -72,6 +87,15 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("   GET    /users/{{id}}");
     println!("   PUT    /users/{{id}}");
     println!("   DELETE /users/{{id}}");
+    println!("   POST   /transfers");
+    println!("   GET    /transfers?userId={{userId}}&page=1&pageSize=20");
+    println!("   GET    /transfers/{{id}}");
+    println!("");
+    println!("📊 Transfer API Features:");
+    println!("   - Point transfer between users");
+    println!("   - Idempotency key for duplicate protection");
+    println!("   - Point ledger for audit trail");
+    println!("   - Automatic balance management");
 
     // run our app with hyper, listening globally on port 3000
     let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await?;
